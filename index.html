@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="en" x-data="app()" :class="{'dark':dark}" class="scroll-smooth">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- 1. MODIFIKASI METADATA UNTUK SEO ADE CANDRA -->
+  <meta name="description"
+    content="Ade Candra — Full Stack Developer & Machine Learning Enthusiast. Berpengalaman membangun aplikasi web end-to-end dengan Laravel.">
+  <meta name="keywords"
+    content="Full Stack Developer, Laravel, Machine Learning, Ade Candra, Portofolio IT, Web Developer Bandung, developer laravel">
+  <meta name="author" content="Ade Candra">
+  <meta property="og:title" content="Ade Candra — Full Stack Developer">
+  <meta property="og:description"
+    content="Berpengalaman membangun aplikasi web end-to-end dengan Laravel dan pemodelan Machine Learning.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://adecandra.dev"> <!-- Kamu bisa ganti ini dengan domainmu nanti -->
+  <title>Ade Candra — Full Stack Developer &amp; Machine Learning Enthusiast</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap"
+    rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: { display: ['PT Sans', 'sans-serif'], body: ['DM Sans', 'sans-serif'] },
+          colors: { accent: '#FF6B2B', 'accent-light': '#FF8F5C' } // Warna oranye bawaan template
+        }
+      }
+    }
+  </script>
+
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box
+    }
+
+    html,
+    body {
+      font-family: 'DM Sans', sans-serif
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-family: 'PT Sans', sans-serif
+    }
+
+    body {
+      transition: background-color .3s, color .3s
+    }
+
+    /* noise overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      opacity: .35;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.05'/%3E%3C/svg%3E")
+    }
+
+    /* scrollbar */
+    ::-webkit-scrollbar {
+      width: 5px
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #FF6B2B;
+      border-radius: 99px
+    }
+
+    /* reveal on scroll */
+    .reveal {
+      opacity: 0;
+      transform: translateY(26px);
+      transition: opacity .6s cubic-bezier(.4, 0, .2, 1), transform .6s cubic-bezier(.4, 0, .2, 1)
+    }
+
+    .reveal.in {
+      opacity: 1;
+      transform: none
+    }
+
+    .d1 {
+      transition-delay: .08s
+    }
+
+    .d2 {
+      transition-delay: .16s
+    }
+
+    .d3 {
+      transition-delay: .24s
+    }
+
+    .d4 {
+      transition-delay: .32s
+    }
+
+    /* nav underline animation */
+    .nl {
+      position: relative
+    }
+
+    .nl::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 1.5px;
+      background: currentColor;
+      transition: width .22s cubic-bezier(.4, 0, .2, 1)
+    }
+
+    .nl:hover::after,
+    .nl.on::after {
+      width: 100%
+    }
+
+    .nl.on {
+      font-weight: 500
+    }
+
+    /* shimmer button */
+    .shimmer {
+      position: relative;
+      overflow: hidden
+    }
+
+    .shimmer::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 60%;
+      height: 100%;
+      background: rgba(255, 255, 255, .18);
+      transform: skewX(-20deg);
+      transition: left .4s cubic-bezier(.4, 0, .2, 1)
+    }
+
+    .shimmer:hover::after {
+      left: 160%
+    }
+
+    /* photo frames */
+    .pf {
+      overflow: hidden;
+      background: #d4d4d8
+    }
+
+    .pf img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block
+    }
+
+    /* card hover */
+    .card-h {
+      transition: transform .28s cubic-bezier(.4, 0, .2, 1), border-color .18s
+    }
+
+    .card-h:hover {
+      transform: translateY(-4px)
+    }
+
+    /* skill tag */
+    .stag {
+      transition: border-color .18s
+    }
+
+    [x-cloak] {
+      display: none !important
+    }
+  </style>
+</head>
+
+<body class="bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 antialiased">
+
+  <!-- ═══ NAV ═══ -->
+  <header class="fixed inset-x-0 top-0 z-50 transition-all duration-300"
+    :class="sc?'bg-white/90 dark:bg-zinc-950/90 backdrop-blur-md shadow-sm shadow-black/5':''">
+    <nav class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between" aria-label="Main navigation">
+
+      <a href="#hero" class="font-display font-bold text-xl tracking-tight relative z-10">
+        <span class="text-zinc-900 dark:text-white">Ade</span><span class="text-accent">can.</span>
+      </a>
+
+      <!-- MENU UTAMA (DEKSTOP) DALAM BAHASA INDONESIA -->
+      <ul class="hidden md:flex items-center gap-8 text-sm" role="list">
+        <li><a href="#services"
+            class="nl text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors"
+            :class="s==='services'?'on !text-zinc-900 dark:!text-white':''">Layanan</a></li>
+        <li><a href="#work"
+            class="nl text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors"
+            :class="s==='work'?'on !text-zinc-900 dark:!text-white':''">Proyek</a></li>
+        <li><a href="#about"
+            class="nl text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors"
+            :class="s==='about'?'on !text-zinc-900 dark:!text-white':''">Tentang</a></li>
+        <li><a href="#blog"
+            class="nl text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors"
+            :class="s==='blog'?'on !text-zinc-900 dark:!text-white':''">Sertifikasi</a></li>
+        <li><a href="#contact"
+            class="nl text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors"
+            :class="s==='contact'?'on !text-zinc-900 dark:!text-white':''">Kontak</a></li>
+      </ul>
+
+      <div class="flex items-center gap-3">
+        <!-- dark toggle -->
+        <button @click="dark=!dark"
+          class="w-9 h-9 flex items-center justify-center rounded-full border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-colors"
+          :aria-label="dark?'Light mode':'Dark mode'">
+          <svg x-show="!dark" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
+          </svg>
+          <svg x-show="dark" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707M17.657 17.657l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
+          </svg>
+        </button>
+        <!-- hire me -->
+        <a href="#contact"
+          class="hidden md:inline-flex items-center gap-2 shimmer bg-accent text-white text-sm font-medium px-5 py-2 rounded-full hover:bg-accent-light transition-colors">
+          Hubungi Saya <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+            aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </a>
+        <!-- hamburger -->
+        <button @click="mm=!mm"
+          class="md:hidden w-9 h-9 flex items-center justify-center rounded-full border border-zinc-200 dark:border-zinc-800"
+          :aria-expanded="mm" aria-label="Toggle menu">
+          <svg x-show="!mm" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+          <svg x-show="mm" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </nav>
+
+    <!-- MENU UTAMA (MOBILE) DALAM BAHASA INDONESIA -->
+    <div x-show="mm" x-cloak x-transition:enter="transition ease-out duration-200"
+      x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0"
+      x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 translate-y-0"
+      x-transition:leave-end="opacity-0 -translate-y-2"
+      class="md:hidden bg-white dark:bg-zinc-950 border-t border-zinc-100 dark:border-zinc-900">
+      <ul class="flex flex-col px-6 py-5 gap-4 text-sm font-medium" role="list">
+        <li><a href="#services" @click="mm=false"
+            class="block text-zinc-700 dark:text-zinc-300 hover:text-accent transition-colors">Layanan</a></li>
+        <li><a href="#work" @click="mm=false"
+            class="block text-zinc-700 dark:text-zinc-300 hover:text-accent transition-colors">Proyek</a></li>
+        <li><a href="#about" @click="mm=false"
+            class="block text-zinc-700 dark:text-zinc-300 hover:text-accent transition-colors">Tentang</a></li>
+        <li><a href="#blog" @click="mm=false"
+            class="block text-zinc-700 dark:text-zinc-300 hover:text-accent transition-colors">Sertifikasi</a></li>
+        <li><a href="#contact" @click="mm=false"
+            class="block text-zinc-700 dark:text-zinc-300 hover:text-accent transition-colors">Kontak</a></li>
+        <li class="pt-2 border-t border-zinc-100 dark:border-zinc-900">
+          <a href="#contact" @click="mm=false"
+            class="inline-flex shimmer bg-accent text-white font-medium text-sm px-5 py-2.5 rounded-full">Hubungi Saya
+            →</a>
+        </li>
+      </ul>
+    </div>
+  </header>
+  <main>
+
+    <!-- ═══ HERO ═══ -->
+    <section id="hero" class="relative min-h-screen flex items-center pt-16 overflow-hidden">
+      <div class="absolute top-1/4 right-0 w-96 h-96 bg-accent/10 rounded-full blur-3xl pointer-events-none"
+        aria-hidden="true"></div>
+      <div
+        class="absolute bottom-1/4 left-0 w-64 h-64 bg-zinc-200/50 dark:bg-zinc-800/30 rounded-full blur-3xl pointer-events-none"
+        aria-hidden="true"></div>
+
+      <div class="relative z-10 max-w-6xl mx-auto px-6 py-24 w-full">
+        <div class="grid md:grid-cols-2 gap-12 items-center">
+
+          <div>
+            <!-- Status Ketersediaan -->
+            <p class="reveal text-sm font-medium text-accent tracking-widest uppercase mb-4">Tersedia untuk Project</p>
+
+            <!-- Nama Utama -->
+            <h1
+              class="reveal d1 font-display font-bold text-5xl md:text-6xl lg:text-7xl leading-[1.05] tracking-tight text-zinc-900 dark:text-white mb-6">
+              Hai, Saya <span class="text-accent">Ade Candra</span>
+            </h1>
+
+            <!-- Headline & Ringkasan Singkat Dari CV -->
+            <p
+              class="reveal d2 text-lg md:text-xl text-zinc-500 dark:text-zinc-400 font-light leading-relaxed max-w-md mb-10">
+              Seorang <strong class="font-medium text-zinc-700 dark:text-zinc-300">Full Stack Developer &amp; Machine
+                Learning Enthusiast</strong>. Berpengalaman membangun aplikasi web end-to-end yang cepat, bersih, dan
+              fungsional.
+            </p>
+
+            <!-- Tombol Aksi (Call to Action) -->
+            <div class="reveal d3 flex flex-wrap gap-4">
+              <a href="#work"
+                class="shimmer inline-flex items-center gap-2 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 font-medium px-7 py-3.5 rounded-full hover:bg-zinc-700 dark:hover:bg-zinc-200 transition-colors text-sm">
+                Lihat Proyek Saya
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </a>
+              <a href="#contact"
+                class="inline-flex items-center gap-2 border border-zinc-300 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 font-medium px-7 py-3.5 rounded-full hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-colors text-sm">Hubungi
+                Saya</a>
+            </div>
+
+            <!-- Statistik Portofolio Ade -->
+            <div class="reveal d4 flex gap-8 mt-14 pt-8 border-t border-zinc-100 dark:border-zinc-900">
+              <div>
+                <p class="font-display font-bold text-3xl text-zinc-900 dark:text-white">4</p>
+                <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1">Proyek Selesai</p>
+              </div>
+              <div>
+                <p class="font-display font-bold text-3xl text-zinc-900 dark:text-white">4</p>
+                <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1">Sertifikasi Nasional/Intl</p>
+              </div>
+              <div>
+                <p class="font-display font-bold text-3xl text-zinc-900 dark:text-white">A+</p>
+                <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1">Kompetensi Teknis</p>
+              </div>
+            </div>
+          </div>
+          <!-- Komponen Foto Profil - Bersih Tanpa Garis Kotak -->
+          <div class="reveal d2 flex justify-center md:justify-end mt-12 md:mt-0">
+            <div class="relative w-72 h-72 md:w-80 md:h-80 lg:w-96 lg:h-96">
+
+              <!-- Pembungkus Foto: Bersih dan Transparan -->
+              <div class="overflow-visible w-full h-full bg-transparent flex items-end justify-center">
+                <!-- Foto PNG transparan Ade Candra -->
+                <img src="assets/img/fotoProfile_Ade.png" alt="Ade Candra — Full Stack Developer"
+                  class="w-[115%] h-[115%] object-contain object-bottom block -translate-y-6 transition-transform duration-300 hover:scale-105"
+                  loading="eager">
+              </div>
+
+              <!-- Badge Status Ketersediaan -->
+              <div
+                class="absolute -bottom-4 -left-4 bg-accent text-white font-display font-bold text-sm px-4 py-2.5 rounded-2xl shadow-lg z-10">
+                Terbuka untuk Kerja Sama</div>
+            </div>
+          </div>
+    </section>
+
+    <!-- ═══ SERVICES ═══ -->
+    <section id="services" class="py-24 bg-zinc-50 dark:bg-zinc-900/40">
+      <div class="max-w-6xl mx-auto px-6">
+
+        <!-- Header Section Layanan -->
+        <div class="mb-14">
+          <p class="reveal text-xs font-medium text-accent tracking-widest uppercase mb-3">Fokus Keahlian</p>
+          <h2 class="reveal d1 font-display font-bold text-4xl md:text-5xl text-zinc-900 dark:text-white">Layanan</h2>
+        </div>
+
+        <!-- Grid Kolom Tiga Utama -->
+        <div class="grid md:grid-cols-3 gap-6">
+
+          <!-- Kartu Layanan 1: Web Development -->
+          <article
+            class="reveal d1 card-h group bg-white dark:bg-zinc-900 rounded-2xl p-8 border border-zinc-100 dark:border-zinc-800 hover:border-accent">
+            <div
+              class="w-12 h-12 flex items-center justify-center bg-orange-50 dark:bg-zinc-800 rounded-xl mb-6 group-hover:bg-accent/10 transition-colors">
+              <!-- Icon Koding/Code Web -->
+              <svg class="w-6 h-6 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+              </svg>
+            </div>
+            <h3 class="font-display font-bold text-xl text-zinc-900 dark:text-white mb-3">Web Development</h3>
+            <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">
+              Spesialisasi dalam membangun aplikasi web <em>end-to-end</em> menggunakan ekosistem
+              <strong>Laravel</strong> (Laravel 9/11, Filament, Livewire). Mengimplementasikan autentikasi yang aman,
+              manajemen manipulasi data, hingga integrasi API pihak ketiga.
+            </p>
+          </article>
+
+          <!-- Kartu Layanan 2: Machine Learning -->
+          <!-- Mengubah background menjadi kontras gelap seperti bawaan template asli untuk variasi visual -->
+          <article
+            class="reveal d2 card-h group bg-zinc-900 dark:bg-zinc-800 rounded-2xl p-8 border border-zinc-800 hover:border-accent">
+            <div
+              class="w-12 h-12 flex items-center justify-center bg-zinc-800 dark:bg-zinc-700 rounded-xl mb-6 group-hover:bg-accent/20 transition-colors">
+              <!-- Icon Database/Analisis Model -->
+              <svg class="w-6 h-6 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+              </svg>
+            </div>
+            <h3 class="font-display font-bold text-xl text-white mb-3">Machine Learning</h3>
+            <p class="text-sm text-zinc-400 leading-relaxed">
+              Pengembangan arsitektur kecerdasan buatan terfokus pada pemodelan prediktif dan analisis data.
+              Berpengalaman melakukan proses <em>preprocessing data</em> serta menerapkan algoritma klasifikasi (seperti
+              Gradient Boosting) menggunakan <strong>Python</strong>, Scikit-learn, dan Pandas.
+            </p>
+          </article>
+
+          <!-- Kartu Layanan 3: IT Support -->
+          <article
+            class="reveal d3 card-h group bg-white dark:bg-zinc-900 rounded-2xl p-8 border border-zinc-100 dark:border-zinc-800 hover:border-accent">
+            <div
+              class="w-12 h-12 flex items-center justify-center bg-orange-50 dark:bg-zinc-800 rounded-xl mb-6 group-hover:bg-accent/10 transition-colors">
+              <!-- Icon Troubleshooting/Gear Perangkat -->
+              <svg class="w-6 h-6 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+            </div>
+            <h3 class="font-display font-bold text-xl text-zinc-900 dark:text-white mb-3">IT Support & Network</h3>
+            <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">
+              Penanganan teknis mendalam mencakup pemecahan masalah sistem atau <em>troubleshooting</em>, konfigurasi
+              perangkat
+              jaringan, serta pemeliharaan infrastruktur komputer yang didukung oleh standarisasi kompetensi
+              <strong>BNSP</strong>.
+            </p>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ WORK ═══ -->
+    <section id="work" class="py-24 bg-white dark:bg-zinc-950 transition-colors duration-300">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <div class="text-center max-w-3xl mx-auto mb-16">
+          <p
+            class="text-xs font-semibold tracking-widest text-accent uppercase bg-accent/10 px-3 py-1 rounded-full inline-block mb-3">
+            Portofolio Karya
+          </p>
+          <h2 class="text-3xl font-bold text-zinc-950 dark:text-white sm:text-4xl tracking-tight">
+            Proyek Terpilih
+          </h2>
+          <div class="mt-2 w-12 h-1 bg-accent mx-auto rounded-full"></div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-x-8 gap-y-16">
+
+          <article class="reveal d1 group">
+            <div class="aspect-[2/1] overflow-hidden rounded-2xl mb-6">
+              <img src="assets/img/project-phisURL.png" alt="Phishing Website Detection"
+                class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
+                loading="lazy">
+            </div>
+            <div class="flex flex-wrap gap-2 mb-3">
+              <span class="text-xs font-medium px-2.5 py-1 bg-orange-50 dark:bg-zinc-800 text-accent rounded-md">Machine
+                Learning</span>
+              <span
+                class="text-xs font-medium px-2.5 py-1 bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 rounded-md">Python</span>
+              <span
+                class="text-xs font-medium px-2.5 py-1 bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 rounded-md">Streamlit</span>
+            </div>
+            <h3
+              class="font-display font-bold text-2xl text-zinc-900 dark:text-white mb-2 group-hover:text-accent transition-colors">
+              Phishing Website Detection
+            </h3>
+            <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed mb-4">
+              Aplikasi pendeteksi website phishing berbasis kecerdasan buatan menggunakan algoritma <em>Gradient
+                Boosting Classifier</em>. Mampu menganalisis URL secara <strong>realtime</strong> dengan akurasi
+              mencapai <strong>98,9%</strong>.
+            </p>
+          </article>
+
+          <article class="reveal d2 group">
+            <div class="aspect-[2/1] overflow-hidden rounded-2xl mb-6">
+              <img src="assets/img/project-pusba.png" alt="PUSBA ULBI"
+                class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
+                loading="lazy">
+            </div>
+            <div class="flex flex-wrap gap-2 mb-3">
+              <span class="text-xs font-medium px-2.5 py-1 bg-orange-50 dark:bg-zinc-800 text-accent rounded-md">Full
+                Stack</span>
+              <span
+                class="text-xs font-medium px-2.5 py-1 bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 rounded-md">Laravel
+                11</span>
+              <span
+                class="text-xs font-medium px-2.5 py-1 bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 rounded-md">Filament</span>
+            </div>
+            <h3
+              class="font-display font-bold text-2xl text-zinc-900 dark:text-white mb-2 group-hover:text-accent transition-colors">
+              PUSBA — Pusat Bahasa ULBI
+            </h3>
+            <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed mb-4">
+              Sistem informasi pendaftaran dan pengelolaan peserta pelatihan serta sertifikasi untuk Pusat Bahasa
+              Universitas Logistik dan Bisnis Internasional. Dibangun menggunakan arsitektur modern panel
+              <strong>Filament</strong> dan <strong>Livewire</strong>.
+            </p>
+          </article>
+
+          <article class="reveal d3 group">
+            <div class="aspect-[2/1] overflow-hidden rounded-2xl mb-6">
+              <img src="assets/img/project-kosta.png" alt="Kosta App"
+                class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
+                loading="lazy">
+            </div>
+            <div class="flex flex-wrap gap-2 mb-3">
+              <span class="text-xs font-medium px-2.5 py-1 bg-orange-50 dark:bg-zinc-800 text-accent rounded-md">Sistem
+                Informasi Geografis</span>
+              <span
+                class="text-xs font-medium px-2.5 py-1 bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 rounded-md">Laravel
+                9</span>
+              <span
+                class="text-xs font-medium px-2.5 py-1 bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 rounded-md">Bootstrap
+                5</span>
+            </div>
+            <h3
+              class="font-display font-bold text-2xl text-zinc-900 dark:text-white mb-2 group-hover:text-accent transition-colors">
+              Kosta — GIS Katalog Kos Bandung
+            </h3>
+            <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed mb-4">
+              Aplikasi katalog pencarian kos-kosan di wilayah Kota Bandung berbasis peta digital. Mengimplementasikan
+              fitur pemetaan titik lokasi geografis terintegrasi untuk memudahkan calon penghuni melihat koordinat kos
+              secara presisi.
+            </p>
+          </article>
+
+          <article class="reveal d4 group">
+            <div class="aspect-[2/1] overflow-hidden rounded-2xl mb-6">
+              <img src="assets/img/project-hota.png" alt="Hotel App"
+                class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
+                loading="lazy">
+            </div>
+            <div class="flex flex-wrap gap-2 mb-3">
+              <span class="text-xs font-medium px-2.5 py-1 bg-orange-50 dark:bg-zinc-800 text-accent rounded-md">Web
+                GIS</span>
+              <span
+                class="text-xs font-medium px-2.5 py-1 bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 rounded-md">Laravel</span>
+              <span
+                class="text-xs font-medium px-2.5 py-1 bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 rounded-md">Maps
+                Marker</span>
+            </div>
+            <h3
+              class="font-display font-bold text-2xl text-zinc-900 dark:text-white mb-2 group-hover:text-accent transition-colors">
+              Hotel App — Pemetaan Wilayah Hotel
+            </h3>
+            <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed mb-4">
+              Perancangan aplikasi web SIG yang berfungsi memetakan sebaran hotel. Sistem menggunakan <em>marker</em>
+              khusus di atas peta interaktif untuk menandakan zonasi wilayah akomodasi hotel secara terstruktur.
+            </p>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ ABOUT ═══ -->
+    <section id="about" class="py-24 bg-zinc-50 dark:bg-zinc-900/40">
+      <div class="max-w-6xl mx-auto px-6">
+        <div class="grid md:grid-cols-2 gap-16 items-center">
+
+          <div class="reveal order-2 md:order-1">
+            <p class="text-xs font-medium text-accent tracking-widest uppercase mb-3">Pendidikan</p>
+            <h3 class="font-display font-bold text-2xl text-zinc-900 dark:text-white mb-6">Riwayat Akademik</h3>
+
+            <div class="space-y-6">
+              <div class="border-l-2 border-accent pl-4">
+                <h4 class="font-display font-bold text-lg text-zinc-900 dark:text-white">Universitas Logistik dan Bisnis
+                  Internasional (ULBI)</h4>
+                <p class="text-sm text-accent font-medium mt-0.5">2021 — Saat Ini</p>
+                <p class="text-sm text-zinc-500 dark:text-zinc-400 mt-1">Program Studi D4 Teknik Informatika</p>
+                <p class="text-xs text-zinc-400 mt-1 font-mono">IPK: 3.36 / 4.00</p>
+              </div>
+
+              <div class="border-l-2 border-zinc-200 dark:border-zinc-700 pl-4">
+                <h4 class="font-display font-bold text-lg text-zinc-900 dark:text-white">SMA Negeri 1 Teluk Sebong</h4>
+                <p class="text-sm text-zinc-400 font-medium mt-0.5">2018 — 2021</p>
+                <p class="text-sm text-zinc-500 dark:text-zinc-400 mt-1">Matematika dan Ilmu Pengetahuan Alam</p>
+                <p class="text-xs text-zinc-400 mt-1 font-mono">Nilai: 85 / 100</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="order-1 md:order-2">
+            <p class="reveal text-xs font-medium text-accent tracking-widest uppercase mb-3">Tentang Saya</p>
+            <h2
+              class="reveal d1 font-display font-bold text-4xl md:text-5xl text-zinc-900 dark:text-white leading-tight mb-6">
+              Mengenal Lebih<br>Dekat</h2>
+
+            <p class="reveal d2 text-zinc-500 dark:text-zinc-400 leading-relaxed mb-4">
+              Saya terbiasa bekerja secara kolaboratif dalam tim, menyelesaikan proyek mulai dari tahap analisis
+              kebutuhan, perancangan sistem informasi geografis, pemodelan data, hingga tahap <em>deployment</em> ke
+              server.
+            </p>
+            <p class="reveal d3 text-zinc-500 dark:text-zinc-400 leading-relaxed mb-8">
+              Fokus utama saya adalah terus mengembangkan kemampuan teknis guna memberikan solusi sistem digital yang
+              efektif, terintegrasi, dan berkualitas tinggi.
+            </p>
+
+            <div class="reveal d4 space-y-6">
+              <div>
+                <p class="text-xs font-medium text-zinc-400 uppercase tracking-widest mb-2.5">Bahasa Pemrograman</p>
+                <div class="flex flex-wrap gap-2" role="list">
+                  <span role="listitem"
+                    class="stag text-xs bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 px-3 py-1.5 rounded-lg hover:border-accent">PHP</span>
+                  <span role="listitem"
+                    class="stag text-xs bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 px-3 py-1.5 rounded-lg hover:border-accent">Python</span>
+                  <span role="listitem"
+                    class="stag text-xs bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 px-3 py-1.5 rounded-lg hover:border-accent">JavaScript</span>
+                  <span role="listitem"
+                    class="stag text-xs bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 px-3 py-1.5 rounded-lg hover:border-accent">Golang</span>
+                  <span role="listitem"
+                    class="stag text-xs bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 px-3 py-1.5 rounded-lg hover:border-accent">SQL</span>
+                </div>
+              </div>
+
+              <div>
+                <p class="text-xs font-medium text-zinc-400 uppercase tracking-widest mb-2.5">Framework, Libraries &
+                  Tools</p>
+                <div class="flex flex-wrap gap-2" role="list">
+                  <span role="listitem"
+                    class="stag text-xs bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 px-3 py-1.5 rounded-lg hover:border-accent">Laravel
+                    (9/11)</span>
+                  <span role="listitem"
+                    class="stag text-xs bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 px-3 py-1.5 rounded-lg hover:border-accent">Filament</span>
+                  <span role="listitem"
+                    class="stag text-xs bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 px-3 py-1.5 rounded-lg hover:border-accent">Livewire</span>
+                  <span role="listitem"
+                    class="stag text-xs bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 px-3 py-1.5 rounded-lg hover:border-accent">Tailwind
+                    CSS</span>
+                  <span role="listitem"
+                    class="stag text-xs bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 px-3 py-1.5 rounded-lg hover:border-accent">Bootstrap</span>
+                  <span role="listitem"
+                    class="stag text-xs bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 px-3 py-1.5 rounded-lg hover:border-accent">Scikit-Learn</span>
+                  <span role="listitem"
+                    class="stag text-xs bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 px-3 py-1.5 rounded-lg hover:border-accent">Pandas
+                    & NumPy</span>
+                  <span role="listitem"
+                    class="stag text-xs bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 px-3 py-1.5 rounded-lg hover:border-accent">GIT</span>
+                  <span role="listitem"
+                    class="stag text-xs bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 px-3 py-1.5 rounded-lg hover:border-accent">Google
+                    Cloud Platform</span>
+                  <span role="listitem"
+                    class="stag text-xs bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 px-3 py-1.5 rounded-lg hover:border-accent">Flutter</span>
+                  <span role="listitem"
+                    class="stag text-xs bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 px-3 py-1.5 rounded-lg hover:border-accent">Katalon
+                    & Selenium</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ BLOG ═══ -->
+    <section id="blog" class="py-20 bg-zinc-50 dark:bg-zinc-900/50 transition-colors duration-300 overflow-hidden">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8" x-data="{ activeSlide: 0, totalSlides: 3 }">
+
+        <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between mb-12">
+          <div class="text-left mb-6 sm:mb-0">
+            <p
+              class="text-xs font-semibold tracking-widest text-accent uppercase bg-accent/10 px-3 py-1 rounded-full inline-block mb-3">
+              Kredensial Resmi
+            </p>
+            <h2 class="text-3xl font-bold text-zinc-950 dark:text-white sm:text-4xl tracking-tight">
+              Sertifikasi Kompetensi
+            </h2>
+            <div class="mt-2 w-12 h-1 bg-accent rounded-full"></div>
+          </div>
+
+          <div class="flex items-center space-x-3">
+            <button @click="activeSlide = activeSlide === 0 ? totalSlides - 1 : activeSlide - 1"
+              class="p-3 rounded-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 hover:bg-accent hover:text-white dark:hover:bg-accent dark:hover:text-white transition-all duration-200 focus:outline-none"
+              aria-label="Slide Sebelumnya">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+            <button @click="activeSlide = activeSlide === totalSlides - 1 ? 0 : activeSlide + 1"
+              class="p-3 rounded-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 hover:bg-accent hover:text-white dark:hover:bg-accent dark:hover:text-white transition-all duration-200 focus:outline-none"
+              aria-label="Slide Selanjutnya">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="relative overflow-hidden">
+          <div class="flex transition-transform duration-500 ease-out"
+            :style="window.innerWidth >= 1024 ? `transform: translateX(-${activeSlide * 33.333}%);` : `transform: translateX(-${activeSlide * 100}%);`">
+
+            <div class="w-full flex-shrink-0 px-2 md:w-1/2 lg:w-1/3 md:px-4">
+              <div
+                class="group h-full flex flex-col bg-white dark:bg-zinc-900 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl border border-zinc-200/60 dark:border-zinc-800/80 transition-all duration-300">
+                <div
+                  class="w-full aspect-video bg-zinc-100 dark:bg-zinc-950 border-b border-zinc-200/60 dark:border-zinc-800/80 overflow-hidden">
+                  <img src="assets/img/certificate-bnsp.jpg" alt="Sertifikat BNSP Ade Candra"
+                    class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500" />
+                </div>
+                <div class="p-6 flex flex-col flex-grow">
+                  <span class="text-xs font-medium text-accent uppercase tracking-wider mb-2">Nasional / BNSP</span>
+                  <h3
+                    class="text-lg font-bold text-zinc-900 dark:text-white group-hover:text-accent transition-colors duration-200 mb-2">
+                    Teknisi Muda Komputer Jaringan</h3>
+                  <p class="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">Sertifikasi kompetensi resmi dari
+                    Badan Nasional Sertifikasi Profesi (BNSP) untuk validasi keahlian infrastruktur jaringan skala
+                    menengah.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="w-full flex-shrink-0 px-2 md:w-1/2 lg:w-1/3 md:px-4">
+              <div
+                class="group h-full flex flex-col bg-white dark:bg-zinc-900 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl border border-zinc-200/60 dark:border-zinc-800/80 transition-all duration-300">
+                <div
+                  class="w-full aspect-video bg-zinc-100 dark:bg-zinc-950 border-b border-zinc-200/60 dark:border-zinc-800/80 overflow-hidden">
+                  <img src="assets/img/certificate-scrum.jpg" alt="Sertifikat CertiProf Ade Candra"
+                    class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500" />
+                </div>
+                <div class="p-6 flex flex-col flex-grow">
+                  <span class="text-xs font-medium text-accent uppercase tracking-wider mb-2">Internasional /
+                    CertiProf</span>
+                  <h3
+                    class="text-lg font-bold text-zinc-900 dark:text-white group-hover:text-accent transition-colors duration-200 mb-2">
+                    Scrum Foundation Professional</h3>
+                  <p class="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">Validasi pemahaman internasional
+                    mengenai kerangka kerja Agile dan metodologi Scrum untuk manajemen pengembangan software yang
+                    adaptif.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="w-full flex-shrink-0 px-2 md:w-1/2 lg:w-1/3 md:px-4">
+              <div
+                class="group h-full flex flex-col bg-white dark:bg-zinc-900 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl border border-zinc-200/60 dark:border-zinc-800/80 transition-all duration-300">
+                <div
+                  class="w-full aspect-video bg-zinc-100 dark:bg-zinc-950 border-b border-zinc-200/60 dark:border-zinc-800/80 overflow-hidden">
+                  <img src="assets/img/certificate-database.jpg" alt="Sertifikat Oracle Ade Candra"
+                    class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500" />
+                </div>
+                <div class="p-6 flex flex-col flex-grow">
+                  <span class="text-xs font-medium text-accent uppercase tracking-wider mb-2">Akademik / Oracle</span>
+                  <h3
+                    class="text-lg font-bold text-zinc-900 dark:text-white group-hover:text-accent transition-colors duration-200 mb-2">
+                    Database Design</h3>
+                  <p class="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">Kredensial keahlian dalam
+                    merancang arsitektur basis data relasional yang efisien, pemodelan data (ERD), dan optimalisasi
+                    query terstruktur.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="w-full flex-shrink-0 px-2 md:w-1/2 lg:w-1/3 md:px-4">
+              <div
+                class="group h-full flex flex-col bg-white dark:bg-zinc-900 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl border border-zinc-200/60 dark:border-zinc-800/80 transition-all duration-300">
+                <div
+                  class="w-full aspect-video bg-zinc-100 dark:bg-zinc-950 border-b border-zinc-200/60 dark:border-zinc-800/80 overflow-hidden">
+                  <img src="assets/img/certificate-abap.jpg" alt="Sertifikat SAP Ade Candra"
+                    class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500" />
+                </div>
+                <div class="p-6 flex flex-col flex-grow">
+                  <span class="text-xs font-medium text-accent uppercase tracking-wider mb-2">Enterprise / SAP</span>
+                  <h3
+                    class="text-lg font-bold text-zinc-900 dark:text-white group-hover:text-accent transition-colors duration-200 mb-2">
+                    ABAP Programming</h3>
+                  <p class="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">Sertifikasi pelatihan pemrograman
+                    tingkat lanjut menggunakan bahasa ABAP untuk kustomisasi dan pengembangan modul pada ekosistem SAP
+                    ERP.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="w-full flex-shrink-0 px-2 md:w-1/2 lg:w-1/3 md:px-4">
+              <div
+                class="group h-full flex flex-col bg-white dark:bg-zinc-900 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl border border-zinc-200/60 dark:border-zinc-800/80 transition-all duration-300">
+                <div
+                  class="w-full aspect-video bg-zinc-100 dark:bg-zinc-950 border-b border-zinc-200/60 dark:border-zinc-800/80 overflow-hidden">
+                  <img src="assets/img/certificate-sap.jpg" alt="Sertifikat SAP Ade Candra"
+                    class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500" />
+                </div>
+                <div class="p-6 flex flex-col flex-grow">
+                  <span class="text-xs font-medium text-accent uppercase tracking-wider mb-2">Enterprise / SAP</span>
+                  <h3
+                    class="text-lg font-bold text-zinc-900 dark:text-white group-hover:text-accent transition-colors duration-200 mb-2">
+                    SAP01 - Overview</h3>
+                  <p class="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">Sertifikasi pelatihan pemrograman
+                    tingkat awal mengenai pengembangan modul pada ekosistem SAP ERP.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex justify-center space-x-2 mt-8">
+          <template x-for="(blank, index) in Array.from({ length: totalSlides })" :key="index">
+            <button @click="activeSlide = index" class="h-2 rounded-full transition-all duration-300"
+              :class="activeSlide === index ? 'w-8 bg-accent' : 'w-2 bg-zinc-300 dark:bg-zinc-700'"></button>
+          </template>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ═══ CONTACT ═══ -->
+    <section id="contact" class="py-24">
+      <div class="max-w-4xl mx-auto px-6">
+        <div class="bg-zinc-900 dark:bg-zinc-800 rounded-3xl p-10 md:p-16 relative overflow-hidden">
+          <div class="absolute top-0 right-0 w-64 h-64 bg-accent/20 rounded-full blur-3xl pointer-events-none"
+            aria-hidden="true"></div>
+          <div class="absolute bottom-0 left-0 w-40 h-40 bg-accent/10 rounded-full blur-2xl pointer-events-none"
+            aria-hidden="true"></div>
+
+          <div class="relative z-10 grid md:grid-cols-2 gap-12 items-center">
+
+            <div>
+              <p class="reveal text-xs font-medium text-accent tracking-widest uppercase mb-3">Hubungi Saya</p>
+              <h2 class="reveal d1 font-display font-bold text-4xl md:text-5xl text-white leading-tight mb-5">Mari
+                Kerja<br>Sama</h2>
+              <p class="reveal d2 text-zinc-400 leading-relaxed">
+                Saya terbuka untuk peluang karir, proyek Full Stack Web Development, maupun implementasi Machine
+                Learning. Pilih platform kenyamanan Anda untuk mulai berdiskusi!
+              </p>
+            </div>
+
+            <div class="reveal d3 flex flex-col gap-3.5">
+              <a href="https://wa.me/6283116281797" rel="noopener noreferrer" target="_blank"
+                class="flex items-center justify-between p-4 rounded-xl bg-zinc-800 border border-zinc-700/50 text-zinc-300 hover:text-white hover:border-accent hover:bg-accent/10 transition-all duration-300 group">
+                <div class="flex items-center gap-3.5">
+                  <span
+                    class="w-10 h-10 flex items-center justify-center bg-zinc-900 rounded-lg group-hover:bg-accent/20 transition-colors shrink-0">
+                    <svg class="w-5 h-5 text-zinc-400 group-hover:text-white transition-colors" fill="currentColor"
+                      viewBox="0 0 24 24" aria-hidden="true">
+                      <path
+                        d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.746.953 3.71 1.458 5.704 1.459h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+                    </svg>
+                  </span>
+                  <span class="text-sm font-medium">WhatsApp Chat</span>
+                </div>
+                <span class="text-xs text-zinc-500 group-hover:text-accent transition-colors font-mono">→</span>
+              </a>
+
+              <a href="mailto:ade.candra1500@gmail.com"
+                class="flex items-center justify-between p-4 rounded-xl bg-zinc-800 border border-zinc-700/50 text-zinc-300 hover:text-white hover:border-accent hover:bg-accent/10 transition-all duration-300 group">
+                <div class="flex items-center gap-3.5">
+                  <span
+                    class="w-10 h-10 flex items-center justify-center bg-zinc-900 rounded-lg group-hover:bg-accent/20 transition-colors shrink-0">
+                    <svg class="w-5 h-5 text-zinc-400 group-hover:text-white transition-colors" fill="none"
+                      viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                  </span>
+                  <span class="text-sm font-medium">Kirim Email</span>
+                </div>
+                <span class="text-xs text-zinc-500 group-hover:text-accent transition-colors font-mono">→</span>
+              </a>
+
+              <a href="https://www.linkedin.com/in/ade-candra-367829263/" rel="noopener noreferrer" target="_blank"
+                class="flex items-center justify-between p-4 rounded-xl bg-zinc-800 border border-zinc-700/50 text-zinc-300 hover:text-white hover:border-accent hover:bg-accent/10 transition-all duration-300 group">
+                <div class="flex items-center gap-3.5">
+                  <span
+                    class="w-10 h-10 flex items-center justify-center bg-zinc-900 rounded-lg group-hover:bg-accent/20 transition-colors shrink-0">
+                    <svg class="w-5 h-5 text-zinc-400 group-hover:text-white transition-colors" fill="currentColor"
+                      viewBox="0 0 24 24" aria-hidden="true">
+                      <path
+                        d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+                    </svg>
+                  </span>
+                  <span class="text-sm font-medium">LinkedIn Profil</span>
+                </div>
+                <span class="text-xs text-zinc-500 group-hover:text-accent transition-colors font-mono">→</span>
+              </a>
+
+              <a href="https://github.com/adecandra12" rel="noopener noreferrer" target="_blank"
+                class="flex items-center justify-between p-4 rounded-xl bg-zinc-800 border border-zinc-700/50 text-zinc-300 hover:text-white hover:border-accent hover:bg-accent/10 transition-all duration-300 group">
+                <div class="flex items-center gap-3.5">
+                  <span
+                    class="w-10 h-10 flex items-center justify-center bg-zinc-900 rounded-lg group-hover:bg-accent/20 transition-colors shrink-0">
+                    <svg class="w-5 h-5 text-zinc-400 group-hover:text-white transition-colors" fill="currentColor"
+                      viewBox="0 0 24 24" aria-hidden="true">
+                      <path
+                        d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                    </svg>
+                  </span>
+                  <span class="text-sm font-medium">GitHub Repository</span>
+                </div>
+                <span class="text-xs text-zinc-500 group-hover:text-accent transition-colors font-mono">→</span>
+              </a>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="border-t border-zinc-100 dark:border-zinc-900 transition-colors duration-300">
+    <div class="max-w-6xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p class="text-sm text-zinc-400 text-center sm:text-left">
+        © <span id="yr"></span> Ade Candra. Hak Cipta Dilindungi. <br>
+      </p>
+      <p class="text-xs text-zinc-500 flex items-center gap-1.5">
+        Dibangun dengan
+        <a href="https://tailwindcss.com" rel="noopener noreferrer" target="_blank"
+          class="hover:text-accent transition-colors font-semibold">Tailwind CSS</a>
+        &amp;
+        <a href="https://alpinejs.dev" rel="noopener noreferrer" target="_blank"
+          class="hover:text-accent transition-colors font-semibold">Alpine.js</a>
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    function app() {
+      return {
+        dark: false,
+        mm: false,
+        sc: false,
+        s: 'hero',
+
+        init() {
+          // dark mode
+          this.dark = localStorage.getItem('theme') === 'dark' ||
+            (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches);
+          this.$watch('dark', v => localStorage.setItem('theme', v ? 'dark' : 'light'));
+
+          // scroll
+          window.addEventListener('scroll', () => {
+            this.sc = window.scrollY > 20;
+            this.updateSection();
+          }, { passive: true });
+
+          // reveal
+          const io = new IntersectionObserver(entries => {
+            entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+          }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+          document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+          // year
+          document.getElementById('yr').textContent = new Date().getFullYear();
+        },
+
+        updateSection() {
+          const atBottom = (window.innerHeight + window.scrollY) >= document.body.scrollHeight - 60;
+          if (atBottom) { this.s = 'contact'; return; }
+
+          // SINKRONISASI ID: Menyelaraskan array ID dengan section aktif di portofoliomu
+          const ids = ['contact', 'blog', 'about', 'work', 'services', 'hero'];
+          for (const id of ids) {
+            const el = document.getElementById(id);
+            if (el && window.scrollY >= el.offsetTop - 130) { this.s = id; return; }
+          }
+        }
+      }
+    }
+  </script>
+
+</body>
+
+</html>
